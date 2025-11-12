@@ -85,7 +85,47 @@ class Grammar:
         Returns:
             First set of str.
         """
+def compute_first(self, sentence: str) -> AbstractSet[str]:
+        """
+        Method to compute the first set of a string.
 
+        Args:
+            str: string whose first set is to be computed.
+
+        Returns:
+            First set of str.
+        """
+        
+        if sentence is None:
+            return set()
+        
+        if sentence == '':
+            return {''}
+        
+        set_first = set()
+        for symbol in sentence:
+
+
+            if symbol not in self.terminals and symbol not in self.non_terminals:
+                raise ValueError(f"Invalid symbol {s!r} in sentence, must be terminal or non terminal.")
+
+
+            if symbol in self.terminals:
+                set_first.add(symbol)
+
+            elif(symbol in self.non_terminals):
+                for production in self.productions[symbol]:
+                    if production == '':
+                        set_first.add('')
+                    else:
+                        for s in production:
+                            first = self.compute_first(s)
+                            set_first.update(first - {''})
+                            if '' not in first:
+                                break
+                        else:
+                            set_first.add('')
+            return set_first
 	# TO-DO: Complete this method for exercise 3...
 
 
